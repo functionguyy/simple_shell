@@ -45,3 +45,42 @@ pid_t getppid(void);  // To get the parent process ID of the calling process
 
 ```
 These functions don't return any errors.
+## Exercises
+### 0. getppid
+This source code returns the same value as the return value of the shell
+command `echo $$` because the program is a child process of the shell.
+
+### Read line
+
+To read the enitre line inputted by a user in standard input, you use
+`getline()` which is defined with this prototype:
+
+```C
+#include <stdio.h>
+
+ssize_t getline(char **lineptr, size_t *n, FILE *stream);
+```
+where `ssize_t` and `size_t` are `signed` and `unsigned` integers.
+- `n` is a pointer to an unsigned integer
+- `lineptr` is a pointer to a pointer 
+
+`getline()` reads an entire line from 
+[stream](https://www.gnu.org/software/libc/manual/html_node/Standard-Streams.html)
+and stores the address to the buffer(memory location) containing the text into
+`*lineptr`. The text in the buffer is null-terminated and includes the newline
+character, if one is found.
+
+if you set `*lineptr` to `NULL` and `n` to $0$ before the call, then
+`getline()` will allocate a buffer for storing the line. The buffer should be
+freed by the user program even if `getline()` failed.
+
+On successful execution, `getline()` returns the number of characters read
+including delimiter characters, but not including the terminating null byte
+('\0')
+
+`getline()` returns $-1$ on failure to read a line (including end-of-file
+condition)
+
+Because `getline()` has the ability to reallocate memory for the buffer depending on the
+amount of bytes it reads, the address of `lineptr` and `n` are passed as
+argument to `getline()`. The values are updated accordily.
