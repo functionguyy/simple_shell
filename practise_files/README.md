@@ -70,9 +70,35 @@ and stores the address to the buffer(memory location) containing the text into
 `*lineptr`. The text in the buffer is null-terminated and includes the newline
 character, if one is found.
 
+
 if you set `*lineptr` to `NULL` and `n` to $0$ before the call, then
 `getline()` will allocate a buffer for storing the line. The buffer should be
 freed by the user program even if `getline()` failed.
+
+```C
+#include <stdio.h>
+
+int main(void)
+{
+	ssize_t nread;
+	char *lineptr = NULL;
+	size_t n = 0;
+
+	nread = getline(&lineptr, &n, stdin);
+	if (nread != -1)
+	{
+		printf("%s\n", lineptr);
+
+	}
+	else 
+	{
+		perror("Unable to read line\n");
+	}
+
+	return 0;
+}
+
+```
 
 On successful execution, `getline()` returns the number of characters read
 including delimiter characters, but not including the terminating null byte
@@ -80,6 +106,11 @@ including delimiter characters, but not including the terminating null byte
 
 `getline()` returns $-1$ on failure to read a line (including end-of-file
 condition)
+
+Alternatively, before calling `getline()`, `*lineptr` can contain a pointer to
+a malloc allocated buffer of size `*n` bytes. If the buffer size `*n` bytes
+that you specified is not large enough to hold the line, `getline()` resizes
+it with `realloc()`, updating `*lineptr` and `*n` as necessary.
 
 Because `getline()` has the ability to reallocate memory for the buffer depending on the
 amount of bytes it reads, the address of `lineptr` and `n` are passed as
