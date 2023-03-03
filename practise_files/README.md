@@ -115,3 +115,90 @@ it with `realloc()`, updating `*lineptr` and `*n` as necessary.
 Because `getline()` has the ability to reallocate memory for the buffer depending on the
 amount of bytes it reads, the address of `lineptr` and `n` are passed as
 argument to `getline()`. The values are updated accordily.
+
+## Executing a program
+The system call `execve()` is used to execute a new program from within an
+exiting process(the calling process). `execve()` is defined in `<unistd.h>`
+header file with the following
+prototype:
+```C
+#include <unistd.h>
+
+int execve(const char *pathname, char *const argv[], char *const envp[]);
+
+```
+`execve()` executes the program referred to by `pathname`. This causes the
+program that is currently being run by the calling process to be replaced with
+a new program.
+
+`argv` is an array of argument strings passed to the new program. By
+convention, `argv[0]` should contain the filename associated with the file
+being executed.
+```C
+#include <stdio.h>
+#include <unistd.h>
+
+int main(void)
+{
+	char *argv[] = {"/bin/ls", "-l", "/usr/", NULL};
+
+	printf("Before execve\n");
+	if (execve(argv[0], argv, NULL) == -1)
+	{
+		perror("Error:");
+	}
+	
+	return (0);
+}
+```
+
+`envp[]` is an array of strings, usually in **key=value** pair form, which are
+passed as environment to the new program.
+
+
+The `argv` and `envp` arrays must each include a `NULL` pointer at the end of
+the array
+
+`execve()` does not return on success and the text, initialized data (bss) and
+stack of the calling process are overwritten according to the contents of the
+newly loaded program.
+
+On error $-1$ is returned.
+
+If newly loaded program's `main` function, is defined as:
+```C
+int main(int argc, char *argv[], char *envp[])
+```
+The argument vector (`argv`) and environment can be accessed directly.
+
+However, the use of a third argument to `main` function is not specified in
+POSIX.1; according to POSIX.1, the environment should be accessed via external
+variable `environ` (`man 7 environ`)
+```C
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+/**
+* main - program can be use to exec the program named in its command-line
+* argument
+*/
+
+int main(int argc, char *argv[])
+{
+	char *newargv[] = {NULL, "hello", "world", NULL};
+	extern char **environ;
+
+	if (argc != 2)
+	{
+		fprintf(stderr, "Usage: %s <file-to-exec>\n", argv[0]);
+		exit(EXIT_FAILURE);
+	}
+	
+	newargv[0] = argv[1];
+
+	exec(argv[1], newargv, environ);
+	perror("execve"); /*execve() returns only on error*/
+	exit(EXIT_FAILURE);
+}
+```
