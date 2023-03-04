@@ -1,4 +1,12 @@
 #include "lists.h"
+/**
+* word_arr - function that splits a string and returns an array
+* of each word of the string
+* @str: pointer to string
+*
+* Return: array of each word of the string on success or NULL.
+*/
+
 
 char **word_arr(char *str)
 {
