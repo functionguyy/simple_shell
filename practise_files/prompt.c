@@ -7,24 +7,13 @@
 
 int main(void)
 {
-	ssize_t i;
-	char *lineptr = NULL;
-	size_t n = 0;
 	char **arr;
+	char *line;
 
 	printf("$ ");
-	i = getline(&lineptr, &n, stdin);
-	if (i != -1)
-	{
-		write(STDOUT_FILENO, lineptr, n);
-	}
-	else
-	{
-		write(STDOUT_FILENO, "\n", 1);
-		exit(i);
-	}
-	
-	arr = word_arr(lineptr);
+	line = _getline();
+
+	arr = word_arr(line);
 
 	while(*arr != NULL)
 	{
@@ -36,7 +25,7 @@ int main(void)
 		}
 	}
 
-	free(lineptr);
+	free(line);
 	return (0);
 
 }
