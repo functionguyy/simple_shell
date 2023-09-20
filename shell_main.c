@@ -8,7 +8,7 @@ char *_prompt()
 {
 	char *line_ptr;
 
-	printf("OMSH$ ");
+	printf("$ ");
 	fflush(stdout);
 
 	/* build a readline function */
