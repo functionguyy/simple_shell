@@ -28,7 +28,7 @@ char *_prompt()
  */
 int runNonInteractive(char *prog)
 {
-	char *inputLine, **cmdLineArr;
+	char *inputLine, **cmdLineArr, *cmdName = NULL;
 	cmd_t *cmdData;
 	int cmdCount = 1;
 
@@ -48,10 +48,11 @@ int runNonInteractive(char *prog)
 		cmdData = searchCmd(cmdLineArr[0]);
 		if (cmdData == NULL)
 		{
-			printf("%s: %d: %s: not found\n", prog, cmdCount, cmdLineArr[0]);
+			cmdName = cmdLineArr[0];
+			dprintf(STDERR_FILENO, "%s: %d: %s: not found\n", prog, cmdCount, cmdName);
 			free(cmdData);
 			freeArrayOfPtr(cmdLineArr);
-			return (0);
+			exit(127);
 		}
 		executeCmd(cmdData, cmdLineArr);
 	}
@@ -67,7 +68,7 @@ int runNonInteractive(char *prog)
  */
 int runInteractive(char *prog)
 {
-	char *inputLine, **cmdLineArr;
+	char *inputLine, **cmdLineArr, *cmdName = NULL;
 	cmd_t *cmdData;
 	size_t cmdCount;
 
@@ -90,7 +91,8 @@ int runInteractive(char *prog)
 		cmdData = searchCmd(cmdLineArr[0]);
 		if (cmdData == NULL)
 		{
-			printf("%s: %lu: %s: not found\n", prog, cmdCount, cmdLineArr[0]);
+			cmdName = cmdLineArr[0];
+			dprintf(STDERR_FILENO, "%s: %lu: %s: not found\n", prog, cmdCount, cmdName);
 			free(cmdData);
 			freeArrayOfPtr(cmdLineArr);
 			continue;
