@@ -28,7 +28,7 @@ char *_readLine()
 	{
 		perror("getline");
 		free(line_ptr);
-		return (NULL);
+		exit(0);
 	}
 	/* add condition to catch Ctrl+C signal */
 
@@ -37,7 +37,7 @@ char *_readLine()
 	{
 		free(line_ptr);
 		putchar('\n');
-		return (NULL);
+		exit(0);
 	}
 
 
