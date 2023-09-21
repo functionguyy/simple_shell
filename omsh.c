@@ -9,12 +9,15 @@
  */
 int main(__attribute__((unused)) int ac, char **av)
 {
+	int mode;
+	errno = 0;
 
 	/* ignore Ctrl+C interrupt */
 
+	mode = isatty(STDIN_FILENO);
 
 	/* mode switching */
-	if (isatty(STDIN_FILENO) == 0 && errno == ENOTTY)
+	if (mode == 0 && errno == ENOTTY)
 	{
 		/* Non-interactive mode */
 		runNonInteractive(av[0]);
@@ -24,7 +27,8 @@ int main(__attribute__((unused)) int ac, char **av)
 		/* interactive mode */
 		/* make a function name interactiveLoop */
 		runInteractive(av[0]);
-		putchar('\n');
+
+		_putchar('\n');
 	}
 
 	return (0);

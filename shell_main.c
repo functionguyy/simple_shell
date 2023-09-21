@@ -7,9 +7,12 @@
 char *_prompt()
 {
 	char *line_ptr;
+	char *prompt;
 
-	printf("$ ");
-	fflush(stdout);
+	prompt = "($) ";
+
+	write(STDOUT_FILENO,prompt,strlen(prompt));
+	/*fflush(stdout)*/
 
 	/* build a readline function */
 	line_ptr = _readLine();
