@@ -37,7 +37,6 @@ char **parseLine(char *str, char *delimiter)
 	char *fullStr, **ptrArr;
 	list_t *head;
 
-
 	/* initialize variables */
 	fullStr = str;
 	head = NULL;
@@ -69,7 +68,6 @@ char **parseLine(char *str, char *delimiter)
 
 	/* free input buffer */
 	free(fullStr);
-
 
 	return (ptrArr);
 }
