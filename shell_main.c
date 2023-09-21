@@ -32,26 +32,29 @@ int runNonInteractive(char *prog)
 	cmd_t *cmdData;
 	int cmdCount = 1;
 
-	inputLine = _readLine();
-	if (inputLine == NULL)
-		return (0);
-	/* split input line and create array of words */
-	cmdLineArr = parseLine(inputLine, " ");
-	if (cmdLineArr == NULL)
+	while (1)
 	{
-		/*free(inputLine);*/
-		return (0);
+		inputLine = _readLine();
+		if (inputLine == NULL)
+			break;
+		/* split input line and create array of words */
+		cmdLineArr = parseLine(inputLine, " ");
+		if (cmdLineArr == NULL)
+		{
+			free(inputLine);
+			continue;
+		}
+		/* execute the command */
+		cmdData = searchCmd(cmdLineArr[0]);
+		if (cmdData == NULL)
+		{
+			printf("%s: %d: %s: not found\n", prog, cmdCount, cmdLineArr[0]);
+			free(cmdData);
+			freeArrayOfPtr(cmdLineArr);
+			return (0);
+		}
+		executeCmd(cmdData, cmdLineArr);
 	}
-	/* execute the command */
-	cmdData = searchCmd(cmdLineArr[0]);
-	if (cmdData == NULL)
-	{
-		printf("%s: %d: %s: not found\n", prog, cmdCount, cmdLineArr[0]);
-		free(cmdData);
-		freeArrayOfPtr(cmdLineArr);
-		return (0);
-	}
-	executeCmd(cmdData, cmdLineArr);
 
 	return (0);
 }

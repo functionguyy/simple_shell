@@ -28,7 +28,7 @@ char *_readLine()
 	{
 		perror("getline");
 		free(line_ptr);
-		exit(0);
+		return (NULL);
 	}
 	/* add condition to catch Ctrl+C signal */
 
@@ -36,7 +36,8 @@ char *_readLine()
 	if (n_read == -1 && errno == 0)
 	{
 		free(line_ptr);
-		putchar('\n');
+		if (isatty(STDIN_FILENO))
+			putchar('\n');
 		exit(0);
 	}
 
