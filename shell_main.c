@@ -11,7 +11,7 @@ char *_prompt()
 
 	prompt = "($) ";
 
-	write(STDOUT_FILENO,prompt,strlen(prompt));
+	write(STDOUT_FILENO, prompt, strlen(prompt));
 	/*fflush(stdout)*/
 
 	/* build a readline function */
