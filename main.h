@@ -96,5 +96,6 @@ int runInteractive(char *prog);
 int print_env(void);
 int exit_prog(void);
 void cleanExit(cmd_t *cmdData, char **cmdArr);
+int _putchar(int c);
 
 #endif /* MAIN_H_ */
