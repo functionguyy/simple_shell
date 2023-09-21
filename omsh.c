@@ -1,5 +1,17 @@
 #include "main.h"
 /**
+ * sigIntHandle - handle interrupt signal
+ * @num: signal number
+ *
+ * Return: Nothing
+ */
+void sigIntHandle(int num)
+{
+	(void) num;
+	write(STDOUT_FILENO, "\n$ ", 3);
+	fflush(stdout);
+}
+/**
  * main - program that prints all the command line arguments passed to it
  * without using ac
  * @ac: count of the command line arguments passed to the program
@@ -27,6 +39,7 @@ int main(__attribute__((unused)) int ac, char **av)
 	{
 		/* interactive mode */
 		/* make a function name interactiveLoop */
+		signal(SIGINT, sigIntHandle);
 		runInteractive(av[0]);
 
 		_putchar('\n');

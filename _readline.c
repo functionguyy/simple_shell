@@ -19,6 +19,8 @@ char *_readLine()
 
 
 	/*signal(SIGINT, SIG_IGN)*/
+	if (line_ptr != NULL)
+		free(line_ptr);
 
 	/* read input command line */
 	n_read = getline(&line_ptr, &n, stdin);
@@ -34,6 +36,7 @@ char *_readLine()
 	if (n_read == -1 && errno == 0)
 	{
 		free(line_ptr);
+		putchar('\n');
 		return (NULL);
 	}
 

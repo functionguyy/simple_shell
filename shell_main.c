@@ -9,7 +9,7 @@ char *_prompt()
 	char *line_ptr;
 	char *prompt;
 
-	prompt = "($) ";
+	prompt = "$ ";
 
 	write(STDOUT_FILENO, prompt, strlen(prompt));
 	/*fflush(stdout)*/
@@ -38,7 +38,10 @@ int runNonInteractive(char *prog)
 	/* split input line and create array of words */
 	cmdLineArr = parseLine(inputLine, " ");
 	if (cmdLineArr == NULL)
+	{
+		/*free(inputLine);*/
 		return (0);
+	}
 	/* execute the command */
 	cmdData = searchCmd(cmdLineArr[0]);
 	if (cmdData == NULL)
@@ -92,5 +95,6 @@ int runInteractive(char *prog)
 
 		executeCmd(cmdData, cmdLineArr);
 	}
-	return (0);
+	free(inputLine);
+	exit(EXIT_SUCCESS);
 }

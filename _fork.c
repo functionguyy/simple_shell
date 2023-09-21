@@ -31,7 +31,10 @@ int processExecute(char *cmdPath, char **line_arr)
 	if (pid == 0)
 	{
 		if (execve(cmdPath, line_arr, environ) == -1)
+		{
 			perror("execve");
+			_exit(2);
+		}
 		_exit(status);
 
 	}
