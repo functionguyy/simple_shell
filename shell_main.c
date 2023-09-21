@@ -77,7 +77,10 @@ int runInteractive(char *prog)
 			break;
 		cmdLineArr = parseLine(inputLine, " ");
 		if (cmdLineArr == NULL)
+		{
+			free(inputLine);
 			continue;
+		}
 		cmdData = searchCmd(cmdLineArr[0]);
 		if (cmdData == NULL)
 		{
