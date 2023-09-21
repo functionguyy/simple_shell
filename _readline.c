@@ -18,7 +18,7 @@ char *_readLine()
 	errno = 0;
 
 
-	signal(SIGINT, SIG_IGN);
+	/*signal(SIGINT, SIG_IGN)*/
 
 	/* read input command line */
 	n_read = getline(&line_ptr, &n, stdin);
