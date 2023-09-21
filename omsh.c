@@ -10,6 +10,7 @@
 int main(__attribute__((unused)) int ac, char **av)
 {
 	int mode;
+
 	errno = 0;
 
 	/* ignore Ctrl+C interrupt */
