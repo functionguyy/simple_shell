@@ -30,7 +30,7 @@ int runNonInteractive(char *prog)
 {
 	char *inputLine, **cmdLineArr, *cmdName = NULL;
 	cmd_t *cmdData;
-	int cmdCount = 1;
+	int cmdCount = 1, exitStatus;
 
 	while (1)
 	{
@@ -54,7 +54,10 @@ int runNonInteractive(char *prog)
 			freeArrayOfPtr(cmdLineArr);
 			exit(127);
 		}
-		executeCmd(cmdData, cmdLineArr);
+		exitStatus = executeCmd(cmdData, cmdLineArr);
+		/* catch the exit status from executeCmd */
+		if (exitStatus != 0)
+			exit(exitStatus);
 	}
 
 	return (0);

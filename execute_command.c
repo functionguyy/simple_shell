@@ -19,7 +19,7 @@ int executeCmd(cmd_t *commandData, char **cmdLineArr)
 	/* command path was passed as direct input*/
 	if (commandData->locationFlag == 2)
 		/* call processExecute function */
-		processExecute(cmdLineArr[0], cmdLineArr);
+		ext = processExecute(cmdLineArr[0], cmdLineArr);
 
 	/* the command path was found in PATH */
 	if (commandData->locationFlag == 1)
@@ -43,6 +43,10 @@ int executeCmd(cmd_t *commandData, char **cmdLineArr)
 
 	/* free struct data */
 	free(commandData);
+	/* command execution error */
+	if (ext == 2)
+		return (2);
+
 	return (0);
 }
 

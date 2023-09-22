@@ -35,9 +35,13 @@ int processExecute(char *cmdPath, char **line_arr)
 			perror("execve");
 			_exit(2);
 		}
-		_exit(status);
+		_exit(0);
 
 	}
+
+	if (WIFEXITED(status))
+		if (WEXITSTATUS(status) != 0)
+			return (2);
 
 	return (0);
 }
