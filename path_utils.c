@@ -126,15 +126,20 @@ char *locateCmdDirPath(list_t *h, char *cmdName)
 list_t *createPathDirList(void)
 {
 	/* declare variables */
-	char *pathDirToken, *envValue;
+	char *pathDirToken, *envValue, *envValueDup;
 	list_t *head;
 
 	/* initialize variables */
 	head = NULL;
-	envValue = strdup(_getenv("PATH"));
+	envValue = _getenv("PATH");
 	if (envValue == NULL)
 		return (NULL);
-	pathDirToken = strtok(envValue, ":");
+
+	envValueDup = strdup(envValue);
+	if (envValueDup == NULL)
+		return (NULL);
+
+	pathDirToken = strtok(envValueDup, ":");
 
 	/* build singly linked list of PATH directory pathnames */
 	while (pathDirToken != NULL)
@@ -143,6 +148,6 @@ list_t *createPathDirList(void)
 		pathDirToken = strtok(NULL, ":");
 	}
 
-	free(envValue);
+	free(envValueDup);
 	return (head);
 }

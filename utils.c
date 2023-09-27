@@ -54,6 +54,8 @@ char *_getenv(char *envVar)
 		return (NULL);
 
 	ep = environ;
+	if (*ep == NULL)
+		return (NULL);
 	value = NULL;
 	n = strlen(envVar);
 
